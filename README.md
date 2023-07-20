@@ -14,7 +14,7 @@ The Kanban implementation comes in 2 flavours: Basic and Query based.
 #### Basic Kanban Board
 https://github.com/elgatopanzon/logseq-logtools-custom/assets/133258481/ddd9ffa0-3f8a-4715-b50f-d608605fc68d
 
-The basic Kanban Board workflow allows you to create 4 columes with coloured backgrounds for Todo, Doing, Done and Archive. Tasks are then created inside and manually moved around in the same way that you move Logseq blocks around. You are also in charge of properly marking items as doing/done while moving them.
+The basic Kanban Board workflow allows you to create 4 columns with coloured backgrounds for Todo, Doing, Done and Archive. Tasks are then created inside and manually moved around in the same way that you move Logseq blocks around. You are also in charge of properly marking items as doing/done while moving them.
 
 This was the first implementation of Kanban I did in Logseq.
 

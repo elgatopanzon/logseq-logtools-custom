@@ -1,144 +1,1324 @@
+/*===================================================*/     
+/*= highlight current path by cannnibalox v20210220 =*/ 
+/*====== option: (:hover) to (:focus-whithin) =======*/
+
+.ls-block .bullet{
+    background-color:#dd0707;
+}
+
+.ls-block:not(:hover) .bullet{
+    background-color:var(--ls-block-bullet-color);
+}
+
+/*--- highlight indentation line - remove if not useful ---*/
+/*---- tweak left: and top: offset to match yout theme ----*/
+.blocks-container > div:not(:first-child) .ls-block:hover > div:first-child .bullet:before{
+    content : "└─";
+	color:#6e2222;
+	display: inline-block;
+	left: -20px;
+	top: -10px;
+	width: 30px;
+	position: relative;
+}
+.ls-block > .block-children:hover {
+	border-left-color:#6e2222;
+	border-left-width: 2px;
+}
+
+
+/* -- like dislike ----------------------------------------- */
+
+.ls-block[data-refs-self*="like"] .block-children .bullet-container .bullet {
+    display: none;
+}
+
+.ls-block[data-refs-self*="like"] .block-children .bullet-container:after {
+    content: "+";
+    font-size: 20px;
+    color: #1cd41c;
+}
+
+.ls-block[data-refs-self*="dislike"] .block-children .bullet-container:after {
+    content: "-";
+    color: red;
+}
+
+a.tag[data-ref*="like"] {
+    font-size: .8rem;
+    background: #014935e0;
+    color: rgb(202, 247, 118);
+    padding: 0 6px 3px;
+    border-radius: var(--ls-border-radius-low);
+    border: 1px solid rgba(137, 207, 96, 0.925);
+}
+
+a.tag[data-ref*="dislike"] {
+    font-size: 13px;
+    background: #4b033bda;
+    color: rgb(255, 116, 128);
+    padding: 0 6px 3px;
+    border-radius: var(--ls-border-radius-low);
+    border: 1px solid rgba(182, 13, 41, 0.925);
+}
+
+a.tag[data-ref*="like"]:hover {
+    filter: contrast(2) brightness(10);
+}
+
+a.tag[data-ref*="like"]:before {
+    content: "😀  ";
+    font-size: 13px
+}
+
+a.tag[data-ref*="dislike"]:before {
+    content: "😣  ";
+    font-size: 13px
+}
+
+/* -------------------------------- like dislike end  ------ */
+
+
+/*===========================================================*/
+/* css columns view / kanban  v20220510--------------------- */
+/* use: inline tag #kanban, #kanban-small or #kanban-wXXX    */
+/* try:  #kanban-w200,#kanban-w300, #kanban-w400             */
+
+div[data-refs-self*="kanban"]>.block-children-container.flex {
+    width: 100%;
+}
+
+div[data-refs-self*="kanban"]>.block-children-container.flex>.block-children.w-full {
+	display: inline-flex;
+	position: relative;
+	overflow-x: auto !important;
+	overflow-y: hidden;
+	margin: 0 10px;
+}
+
+/* no borders in kanban columns */
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"] > .flex.block-children-container > .block-children-left-border  {
+	border-left: 0px;
+	opacity: 0;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"] > .flex.block-children-container > .block-children  {
+	border-left: 0px !important;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"] > .flex.block-children-container > .block-children > .ls-block[level="3"]  {
+	border-left: 0px !important;
+}
+
+/* kanban-block: disable kanban by using */
+div[data-refs-self*="kanban-block"]>.block-children-container.flex>.block-children.w-full {
+	display: block !important;
+}
+div[data-refs-self*="kanban"]>.block-children-container.flex>.block-children.w-full>div.ls-block {
+	display: inline-block;
+	padding: 0;
+    width: inherit;
+    min-width: 200px;
+	margin-right: 10px;
+}
+
+/* wide */
+div[data-refs-self*="kanban-small"]>.block-children-container.flex>.block-children,
+div[data-refs-self*="kanban-wide"]>.block-children-container.flex>.block-children {
+    min-width: 90vw;
+    left: 50%;
+    transform: translate(-50%);
+    /* background-color: var(--ls-primary-background-color); */
+    overflow-x: scroll !important;
+    overflow-y: hidden;
+    margin: 10px 30px;
+}
+
+div[data-refs-self*="kanban-wide"]>.block-children-container.flex>.block-children>div.ls-block {
+    display: inline-block;
+    min-width: 350px;
+    padding: 8px 0px !important;
+    font-size: 0.85rem;
+    margin: 5px 0px;
+    /* background-color: var(--ls-secondary-background-color); */
+    /* box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2); */
+    /* border-radius: var(--ls-border-radius-medium); */
+}
+
+
+/* #kanban-small : smaller font with hover zoom */
+div[data-refs-self*="kanban-small"]>.block-children-container.flex>.block-children>div.ls-block {
+    display: inline-block;
+    min-width: 350px;
+}
+
+div[data-refs-self*="kanban-small"]>.block-children-container.flex>.block-children .block-content {
+    font-size: 10px;
+    font-weight: 300;
+}
+
+div[data-refs-self*="kanban-small"]>.block-children-container.flex>.block-children .block-content:hover {
+    font-size: 14px !important;
+    min-width: 100px;
+}
+
+/* #kanban-w[100-600] : force width of the columns */
+div[data-refs-self*="kanban-w100"]>.block-children-container.flex>.block-children.w-full>div.ls-block {
+    min-width: 100px;
+}
+
+div[data-refs-self*="kanban-w150"]>.block-children-container.flex>.block-children.w-full>div.ls-block {
+    min-width: 150px;
+}
+
+div[data-refs-self*="kanban-w200"]>.block-children-container.flex>.block-children.w-full>div.ls-block {
+    min-width: 200px;
+}
+div[data-refs-self*="kanban-w300"]>.block-children-container.flex>.block-children.w-full>div.ls-block {
+    min-width: 300px;
+}
+div[data-refs-self*="kanban-w400"]>.block-children-container.flex>.block-children.w-full>div.ls-block {
+    min-width: 400px;
+}
+div[data-refs-self*="kanban-w450"]>.block-children-container.flex>.block-children.w-full>div.ls-block {
+    min-width: 450px;
+}
+div[data-refs-self*="kanban-w500"]>.block-children-container.flex>.block-children.w-full>div.ls-block {
+    min-width: 500px;
+}
+div[data-refs-self*="kanban-w600"]>.block-children-container.flex>.block-children.w-full>div.ls-block {
+    min-width: 600px;
+}
+div[data-refs-self*="kanban-fit"]>.block-children-container.flex>.block-children.w-full>div.ls-block {
+    min-width: 400px;
+        width: max-content; 
+}
+
+/* remove left border for kanbanized */
+[data-refs-self*="kanban"] .block-children-left-border {
+    opacity: 0 !important;
+}
+
+/* fix modal list not appearing*/
+.block-children {
+    overflow: visible !important;
+} 
+
+.ls-block[data-refs-self*="kanban"] .absolute-modal,
+.ls-block[data-refs-self*="kanban"] #ui__ac {
+    min-height: 80px;
+}
+
+
+/* v-kanban-query for adjusting query results to match normal block view */
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] h3 {
+	margin-left: 10px;
+}
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] .custom-query-results .text-sm {
+	margin-left: 10px;
+	display: none;
+}
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] .block-body .shadow.fade-in {
+	display: none;
+}
+
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] > .flex.flex-row > .block-control-wrap  {
+	display: none;
+}
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="2"] .th  {
+	display: none;
+}
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] > .flex.flex-row, .ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] > .block-children-container {
+	background-color: #22222200 !important;
+	margin: 0px !important;
+	padding: 0px !important;
+}
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] > .flex.flex-row [data-query="true"], .ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] > .block-children-container [data-query="true"] {
+	margin-bottom: 8px !important;
+	margin-left: 1px !important;
+	margin-right: 1px !important;
+	width: 94%;
+}
+
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] .fade-enter > [data-query="true"] {
+	width: 100% !important;
+	background-color: #22222287 !important;
+}
+
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] > .flex.flex-row [data-query="true"][level="1"], .ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] > .block-children-container [data-query="true"][level="1"] {
+	background-color: #22222287 !important;
+}
+
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] > .flex.flex-row [data-query="true"][data-refs-self*="done"] [data-query="true"], .ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] > .block-children-container [data-query="true"][data-refs-self*="done"] [data-query="true"] {
+	opacity: 0.5;
+}
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] > .flex.flex-row .custom-query-results .content, .ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] > .block-children-container .custom-query-results .content {
+	margin-top: 0px !important;
+}
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] > .flex.flex-row > .block-content-wrapper {
+	width: 100% !important;
+	margin-right: 4px;
+}
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] .custom-query-results .block-children {
+	/* display: none; */
+}
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="3"] .breadcrumb .inline-wrap {
+	border-bottom: 1px dashed #aaaaaa;
+}
+
+.ls-block[data-refs-self*=".v-kanban-query"] .custom-query-results .blocks-container, .ls-block[data-refs-self*=".v-kanban-query"] .custom-query-results .flex-1 {
+	overflow: visible !important;
+}
+.ls-block[data-refs-self*=".v-kanban-query"] .custom-query-results #date-time-picker {
+	z-index: 9999;
+}
+.ls-block[data-refs-self*=".v-kanban-query"] .custom-query-results #date-time-picker #time-repeater {
+	background: var(--ls-secondary-background-color);
+}
+
+/* fix: collapsed block query includes collapse control when it has no children */
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="2"] [data-query="true"][haschild="false"] .bullet-closed {
+	/* display: none; */
+	background-color: #00000000; /* 0 opacity for the colour */
+}
+
+/* hide archive tag from tasks */
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="2"] .ls-block[data-refs-self*="archive"] > .flex.flex-row .block-content-wrapper .tag[data-ref="archive"] {
+	display: none;
+}
+/* hide sort tag from tasks */
+.ls-block[data-refs-self*=".v-kanban-query"] .ls-block[level="2"] .block-content-wrapper .tag[data-ref*="sort"] {
+	display: none;
+}
+
+
+/* colors for headings and block content */
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"]:not([data-query="true"]) > .flex.flex-row  {
+	background-color: #333;
+	border-bottom: 2px solid #242424;
+	margin-right: 5px;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"]:not([data-query="true"]) > .flex.block-children-container  {
+	background-color: #444;
+	margin-left: 0px;
+	margin-right: 5px;
+}
+
+/* .ls-block[data-refs-self*=".v-kanban"] > .flex.block-children-container  { */
+/* 	margin-left: 0px; */
+/* } */
+
+/* background colours for blocks so they look like cards */
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="3"] > .flex > .block-control-wrap .bullet-link-wrap > .bullet-container {
+    background-color: #1414147d;
+    min-height: 25px;
+    min-width: 25px;
+    margin-top: 3px;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="3"] > .flex.flex-row, .ls-block[data-refs-self*=".v-kanban"] .ls-block[level="3"] > .block-children-container {
+	background-color: #22222287;
+    color: #dadada;
+    margin: 0px 5px;
+    padding: 5px;
+}
+/* always show block uncollapse for blocks with children */
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="3"].ls-block[haschild="true"]:not([haschild="false"]) > .flex.flex-row .control-hide {
+	display: block !important;
+}
+
+
+/* collapse mode */
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"]:not([data-collapsed="false"]):not([haschild="false"]):not([data-query="true"]) {
+	max-width: 50px !important;
+	min-width: 50px !important;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"]:not([data-collapsed="false"]):not([haschild="false"]):not([data-query="true"]) .block-control-wrap::after {
+	position: absolute;
+    top: 26px;
+    left: 0px;
+    line-height: 13px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    min-height: 160px;
+	writing-mode: vertical-lr;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] > .block-children-container > .block-children {
+	min-height: 200px;
+}
+
+
+
+
+/* coloured headings and custom title: todo */
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="todo"].ls-block[level="2"] > .flex.flex-row  {
+	background-color: #8b3615;
+    border-bottom: 2px solid #231a09;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="todo"].ls-block[level="2"] > .flex.flex-row a[data-ref="todo"] {
+	display: none;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="todo"].ls-block[level="2"].ls-block[data-collapsed="false"] > .flex.flex-row .block-content::before, .ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="todo"].ls-block[level="2"].ls-block[haschild="false"] > .flex.flex-row .block-content::before {
+	content: "Todo" !important;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="todo"].ls-block[level="2"] > .flex.block-children-container  {
+	background-color: #472e24;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"].ls-block[data-refs-self*="todo"]:not([data-collapsed="false"]):not([haschild="false"]) .block-control-wrap::after {
+    content: "Todo";
+	background-color: #472e24;
+}
+
+
+
+/* coloured headings and custom title: doing */
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="doing"].ls-block[level="2"] > .flex.flex-row  {
+	background-color: #326473;
+    border-bottom: 2px solid #231a09;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="doing"].ls-block[level="2"] > .flex.flex-row a[data-ref="doing"] {
+	display: none;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="doing"].ls-block[level="2"].ls-block[data-collapsed="false"] > .flex.flex-row .block-content::before, .ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="doing"].ls-block[level="2"].ls-block[haschild="false"] > .flex.flex-row .block-content::before {
+	content: "Doing" !important;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="doing"].ls-block[level="2"] > .flex.block-children-container  {
+	background-color: #29424c;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"].ls-block[data-refs-self*="doing"]:not([data-collapsed="false"]):not([haschild="false"]) .block-control-wrap::after {
+    content: "Doing";
+	background-color: #29424c;
+}
+
+
+
+/* coloured headings and custom title: done */
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="done"].ls-block[level="2"] > .flex.flex-row  {
+	background-color: #32734c;
+    border-bottom: 2px solid #231a09;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="done"].ls-block[level="2"] > .flex.flex-row a[data-ref="done"] {
+	display: none;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="done"].ls-block[level="2"].ls-block[data-collapsed="false"] > .flex.flex-row .block-content::before, .ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="done"].ls-block[level="2"].ls-block[haschild="false"] > .flex.flex-row .block-content::before {
+	content: "Done" !important;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="done"].ls-block[level="2"] > .flex.block-children-container  {
+	background-color: #294c3d;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"].ls-block[data-refs-self*="done"]:not([data-collapsed="false"]):not([haschild="false"]) .block-control-wrap::after {
+    content: "Done";
+	background-color: #294c3d;
+}
+
+
+
+/* coloured headings and custom title: archive */
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="archive"].ls-block[level="2"] > .flex.flex-row  {
+	/* background-color: #32734c; */
+    border-bottom: 2px solid #231a09;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="archive"].ls-block[level="2"] > .flex.flex-row a[data-ref="archive"] {
+	display: none;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="archive"].ls-block[level="2"].ls-block[data-collapsed="false"] > .flex.flex-row .block-content::before, .ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="archive"].ls-block[level="2"].ls-block[haschild="false"] > .flex.flex-row .block-content::before {
+	content: "Archive" !important;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="archive"].ls-block[level="2"] > .flex.block-children-container  {
+	/* background-color: #294c3d; */
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"].ls-block[data-refs-self*="archive"]:not([data-collapsed="false"]):not([haschild="false"]) .block-control-wrap::after {
+    content: "Archive";
+	background-color: #333333;
+}
+
+
+/* kanban custom headings for my workflow: observe, brainstorm, prototype, breakdown, implement, validate */
+/* coloured headings and custom title: observe */
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-observe"].ls-block[level="2"] > .flex.flex-row  {
+	background-color: #571a8f;
+    border-bottom: 2px solid #231a09;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-observe"].ls-block[level="2"] > .flex.flex-row a[data-ref="lifecycle-observe"] {
+	display: none;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-observe"].ls-block[level="2"].ls-block[data-collapsed="false"] > .flex.flex-row .block-content::before, .ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-observe"].ls-block[level="2"].ls-block[haschild="false"] > .flex.flex-row .block-content::before {
+	content: "Observation" !important;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-observe"].ls-block[level="2"] > .flex.block-children-container  {
+	background-color: #3c2c51;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"].ls-block[data-refs-self*="lifecycle-observe"]:not([data-collapsed="false"]):not([haschild="false"]) .block-control-wrap::after {
+    content: "Observation";
+	background-color: #3c2c51;
+}
+
+/* coloured headings and custom title: brainstorm */
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-brainstorm"].ls-block[level="2"] > .flex.flex-row  {
+	background-color: #6a5eae;
+    border-bottom: 2px solid #231a09;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-brainstorm"].ls-block[level="2"] > .flex.flex-row a[data-ref="lifecycle-brainstorm"] {
+	display: none;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-brainstorm"].ls-block[level="2"].ls-block[data-collapsed="false"] > .flex.flex-row .block-content::before, .ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-brainstorm"].ls-block[level="2"].ls-block[haschild="false"] > .flex.flex-row .block-content::before {
+	content: "Brainstorming" !important;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-brainstorm"].ls-block[level="2"] > .flex.block-children-container  {
+	background-color: #646593;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"].ls-block[data-refs-self*="lifecycle-brainstorm"]:not([data-collapsed="false"]):not([haschild="false"]) .block-control-wrap::after {
+    content: "Brainstorming";
+	background-color: #646593;
+}
+
+/* coloured headings and custom title: prototype */
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-prototype"].ls-block[level="2"] > .flex.flex-row  {
+	background-color: #2c7685;
+    border-bottom: 2px solid #231a09;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-prototype"].ls-block[level="2"] > .flex.flex-row a[data-ref="lifecycle-prototype"] {
+	display: none;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-prototype"].ls-block[level="2"].ls-block[data-collapsed="false"] > .flex.flex-row .block-content::before, .ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-prototype"].ls-block[level="2"].ls-block[haschild="false"] > .flex.flex-row .block-content::before {
+	content: "Prototyping" !important;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-prototype"].ls-block[level="2"] > .flex.block-children-container  {
+	background-color: #2c4051;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"].ls-block[data-refs-self*="lifecycle-prototype"]:not([data-collapsed="false"]):not([haschild="false"]) .block-control-wrap::after {
+    content: "Prototyping";
+	background-color: #2c4051;
+}
+
+/* coloured headings and custom title: breakdown */
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-breakdown"].ls-block[level="2"] > .flex.flex-row  {
+	background-color: #8b3615;
+    border-bottom: 2px solid #231a09;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-breakdown"].ls-block[level="2"] > .flex.flex-row a[data-ref="lifecycle-breakdown"] {
+	display: none;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-breakdown"].ls-block[level="2"].ls-block[data-collapsed="false"] > .flex.flex-row .block-content::before, .ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-breakdown"].ls-block[level="2"].ls-block[haschild="false"] > .flex.flex-row .block-content::before {
+	content: "Breakdown" !important;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-breakdown"].ls-block[level="2"] > .flex.block-children-container  {
+	background-color: #472e24;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"].ls-block[data-refs-self*="lifecycle-breakdown"]:not([data-collapsed="false"]):not([haschild="false"]) .block-control-wrap::after {
+    content: "Breakdown";
+	background-color: #472e24;
+}
+    
+/* coloured headings and custom title: implement */
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-implement"].ls-block[level="2"] > .flex.flex-row  {
+	background-color: #8f741a;
+    border-bottom: 2px solid #231a09;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-implement"].ls-block[level="2"] > .flex.flex-row a[data-ref="lifecycle-implement"] {
+	display: none;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-implement"].ls-block[level="2"].ls-block[data-collapsed="false"] > .flex.flex-row .block-content::before, .ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-implement"].ls-block[level="2"].ls-block[haschild="false"] > .flex.flex-row .block-content::before {
+	content: "Implementation" !important;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-implement"].ls-block[level="2"] > .flex.block-children-container  {
+	background-color: #51472c;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"].ls-block[data-refs-self*="lifecycle-implement"]:not([data-collapsed="false"]):not([haschild="false"]) .block-control-wrap::after {
+    content: "Implementation";
+	background-color: #51472c;
+}
+
+/* coloured headings and custom title: validate */
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-validate"].ls-block[level="2"] > .flex.flex-row  {
+	background-color: #1a8f62;
+    border-bottom: 2px solid #231a09;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-validate"].ls-block[level="2"] > .flex.flex-row a[data-ref="lifecycle-validate"] {
+	display: none;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-validate"].ls-block[level="2"].ls-block[data-collapsed="false"] > .flex.flex-row .block-content::before, .ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-validate"].ls-block[level="2"].ls-block[haschild="false"] > .flex.flex-row .block-content::before {
+	content: "Validation" !important;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[data-refs-self*="lifecycle-validate"].ls-block[level="2"] > .flex.block-children-container  {
+	background-color: #225039;
+}
+.ls-block[data-refs-self*=".v-kanban"] .ls-block[level="2"].ls-block[data-refs-self*="lifecycle-validate"]:not([data-collapsed="false"]):not([haschild="false"]) .block-control-wrap::after {
+    content: "Validation";
+	background-color: #225039;
+}
+
+
+
+/*--------------------------------------------- kanban end-- */
+
+/*===========================================================*/
+/* colorful indent levels ---------------------------------- */
+:root {
+    --ph-indent-lvl2: rgba(189, 189, 189, 0.42);
+}
+
+.block-children-left-border {
+    z-index: 1;
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    padding-right: 0px;
+    border-radius: 2px;
+    background-color: var(--ls-border-color);
+    left: 0px;
+    top: -12px;
+    transition: background-color 0.2s ease 0s;
+    opacity: 1;
+}
+.block-children {
+    border-left: 1px solid transparent;
+}
+.block-children-left-border:hover {
+    background-color: var(--ls-block-bullet-active-color);
+    width: 2px;
+}
+
+.block-children [level="2"]>.block-children-container.flex>.block-children-left-border {
+    background-color: var(--ph-indent-lvl2);
+    opacity: 0.42;
+}
+.block-children [level="3"]>.block-children-container.flex>.block-children-left-border {
+    opacity: 0.42;
+    background-color: rgb(221, 171, 64);
+}
+
+.block-children [level="4"]>.block-children-container.flex>.block-children-left-border {
+    opacity: 0.42;
+    background-color: rgb(255, 0, 0);
+}
+
+.block-children [level="5"]>.block-children-container.flex>.block-children-left-border {
+    opacity: 0.42;
+    background-color: rgb(247, 0, 255);
+}
+
+.block-children [level="6"]>.block-children-container.flex>.block-children-left-border {
+    opacity: 0.42;
+    background-color: rgb(58, 137, 255);
+}
+
+.block-children [level="7"]>.block-children-container.flex>.block-children-left-border {
+    opacity: 0.42;
+    background-color: rgb(61, 90, 255);
+}
+
+.block-children [level="8"]>.block-children-container.flex>.block-children-left-border {
+    opacity: 0.42;
+    background-color: rgb(0, 255, 242);
+}
+.block-children [level="9"]>.block-children-container.flex>.block-children-left-border {
+    opacity: 0.42;
+    background-color: rgb(32, 255, 125);
+}
+.block-children [level="10"]>.block-children-container.flex>.block-children-left-border {
+    opacity: 0.42;
+    background-color: rgb(44, 155, 0);
+}
+
+/*  display level of indentation */
+/*  .block-children [level="2"]>.block-children-container.flex>.block-children-left-border::after {
+    content: "2";
+    font-size: 11px;
+    color: white;
+    display: inline-block;
+    position: relative;
+    top: 50%;
+    left: 5px;
+}
+.block-children [level="3"]>.block-children-container.flex>.block-children-left-border::after {
+    content: "3";
+    font-size: 11px;
+    color: white;
+    display: inline-block;
+    position: relative;
+    top: 50%;
+    left: 5px;
+}
+.block-children [level="4"]>.block-children-container.flex>.block-children-left-border::after {
+    content: "4";
+    font-size: 11px;
+    color: white;
+    display: inline-block;
+    position: relative;
+    top: 50%;
+    left: 5px;
+} 
+ */
+/* --------------------------------------colorful indent end */
+
+/* ===== columns ========== */
+.ls-block[data-refs-self*="columns-2"]>.block-children-container.flex>.block-children.w-full {
+    column-count: 2;
+}
+.ls-block[data-refs-self*="columns-3"]>.block-children-container.flex>.block-children.w-full {
+    column-count: 3
+}
+.ls-block[data-refs-self*="columns-4"]>.block-children-container.flex>.block-children.w-full {
+    column-count: 4
+}
+.ls-block[data-refs-self*="columns-5"]>.block-children-container.flex>.block-children.w-full {
+    column-count: 5
+}
+.ls-block[data-refs-self*="columns-6"]>.block-children-container.flex>.block-children.w-full {
+    column-count: 6
+}
+/*===========================================================*/
+
+
+
+/*===========================================================*/
+/* vismode icon component -----------------------------------*/
+/* - replace utilities tags starting with .v-  ------------- */
+
+a.tag[data-ref*=".v-"]:before {
+    content: "👁";
+    font-size: 0.75rem;
+    line-height: 0.75rem;
+}
+
+a.tag[data-ref*=".v-"]:hover:before {
+    padding-right: 0.3rem;
+}
+
+a.tag[data-ref*=".v-"]:hover {
+    font-size: 0.75rem;
+    line-height: 0.75rem;
+}
+
+a.tag[data-ref*=".v-kanban"]:before {
+    content: "📋";
+    font-size: 0.75rem;
+    line-height: 0.75rem;
+    font-family: tabler-icons;
+}
+
+a.tag[data-ref*=".v-"] {
+    font-size: 0px;
+    font-family: iosevka, fira code, consolas, source code pro;
+    color: #88e165;
+    background-color: #1a2d23;
+    border: 1px solid #a1c65d;
+    border-radius: 3px;
+    padding: 0 2px;
+}
+
+
+/* headings */
+.editor-inner .uniline-block:is(.h1,.h2), .ls-block :is(h1,h2) {
+    margin: .4em 0;
+}
+.ls-block:is(.h1) {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #fff;
+}
+
+.ls-block:is(.h2) {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #b4b4b4;
+}
+
+.ls-block[data-refs-self*=".h"]>.flex-1.flex-row>.flex>.block-content a.tag {
+    display: none
+}
+/*   div.flex-1 > h1:after,
+div.flex-1 > h2:after {
+    content: "";
+    display: block;
+    border-bottom: 1px solid var(--ls-primary-text-color);
+} */
+
+
+/*----------------------------end of vismode icon component--*/
+
+
+.marker-switch, .task-status.waiting {
+	font-size: 0px;
+}
+.marker-switch::before {
+    font-weight: bold;
+    border-bottom: 1px solid #888;
+	font-size: 17px;
+	margin-right: 8px;
+}
+.task-status.waiting::before {
+    font-weight: bold;
+    border-bottom: 1px solid #888;
+	font-size: 16px;
+	margin-right: 0px;
+	margin-left: -4px;
+}
+.todo .marker-switch::before {
+	color: #c65433;
+	content: "📥";
+}
+.doing .marker-switch::before {
+	color: #3388c6;
+	content: "⚙";
+}
+.task-status.waiting::before {
+	color: #888;
+	content: "⏲";
+}
+.done .marker-switch {
+	color: #c65433;
+}
+
+
+/*===========================================================*/
+/* numbered lists 0.4 20230120 */
+/* usage : tag parent block with #numlist */
+
+.ls-block[data-refs-self*="numlist"]>.block-children-container.flex>.block-children>.ls-block {
+    counter-increment: lvlNumber;
+}
+
+.ls-block[data-refs-self*="numlist"]>.block-children-container.flex>.block-children>.ls-block>div>div>a>.bullet-container:before {
+    content: counters(lvlNumber, ".") ":";
+    position: absolute;
+    display: block;
+    text-align: end;
+}
+
+.ls-block[data-refs-self*="numlist"]>.block-children-container.flex>.block-children>.ls-block>.block-children-container.flex>.block-children>.ls-block {
+    counter-increment: sublvlNumber;
+}
+
+.ls-block[data-refs-self*="numlist"]>.block-children-container.flex>.block-children>.ls-block>.block-children-container.flex>.block-children>.ls-block>div>div>a>.bullet-container:before {
+    content: counters(lvlNumber, ".") "." counters(sublvlNumber, ".") ":";
+    position: absolute;
+    display: block;
+    padding-right: 0.25em;       
+}
+
+.ls-block[data-refs-self*="numlist"]>.block-children-container.flex>.block-children>.ls-block>.block-children-container.flex>.block-children>.ls-block>div>div>.block-control {
+    width: 2rem !important;
+}
+
+.ls-block[data-refs-self*="numlist"]>.block-children-container.flex>.block-children>.ls-block>.block-children-container.flex>.block-children>.ls-block>div>.block-content-wrapper {
+    padding-left: 0.25em
+}
+
+/* hide bullets */
+
+.ls-block[data-refs-self*="numlist"]>.block-children-container.flex>.block-children>.ls-block>.block-children-container.flex>.block-children div .bullet-container:before {
+    content: "";
+}
+
+.ls-block[data-refs-self*="numlist"]>.block-children-container.flex>.block-children>.ls-block>div>div>a>.bullet-container>.bullet {
+    visibility: hidden;
+}
+
+.ls-block[data-refs-self*="numlist"]>.block-children-container.flex>.block-children>.ls-block>.block-children-container.flex>.block-children>.ls-block>div>div>a>.bullet-container>.bullet {
+    visibility: hidden;
+}
+
+/*------------------------------------end of numbered lists--*/
+
+/*===========================================================*/
+/*==== logseq-bars v20210307 start ====== */
+/* resets tag style */
+
+[data-ref*="bar-"].tag,
+[data-ref*="bar-"].page-ref {
+    font-size: 0;
+    width: 104px;
+    height: 6px;
+    margin: 0px 10px;
+    padding: 1px 1px;
+    display: inline-block;
+    text-align: start;
+    vertical-align: middle;
+    border: 1px solid var(--ls-border-color);
+    border-radius: 6px;
+    background: #12121287;
+    /* optionnal settings for right justification below - uncomment to use
+            /* position: absolute; */
+    /* right: 10%; */
+}
+
+[data-ref*="bar-"]:before {
+    content: "";
+    height: 4px;
+    top: -1px;
+    position: relative;
+    display: inline-block;
+    border-radius: 4px;
+    background-image: linear-gradient(to right, red 0px, #fa2 20px, #fffc5f 30px, #00ff62 50px, #22ffed 70px, #002fff 90px);
+}
+
+[data-ref*="flatbar-"]:before {
+    background: red;
+}
+
+[data-ref*="bar-00"]:before {
+    width: 1px;
+}
+
+[data-ref*="bar-10"]:before {
+    width: 10px;
+}
+
+[data-ref*="bar-20"]:before {
+    width: 20px;
+}
+
+[data-ref*="bar-30"]:before {
+    width: 30px;
+}
+
+[data-ref*="bar-40"]:before {
+    width: 40px;
+}
+
+[data-ref*="bar-50"]:before {
+    width: 50px;
+}
+
+[data-ref*="bar-60"]:before {
+    width: 60px;
+}
+
+[data-ref*="bar-70"]:before {
+    width: 70px;
+}
+
+[data-ref*="bar-80"]:before {
+    width: 80px;
+}
+
+[data-ref*="bar-90"]:before {
+    width: 90px;
+}
+
+[data-ref*="bar-100"]:before {
+    width: 100px;
+}
+
+
+/*------------------------- logseq-bars v20210307 end ====== */
+
+
+/* ============================================================
+*  ls-border v0.2 20220307
+*  create borders around blocks (framed boxes)
+*  usage:   
+*  - tag a block with #.v-self-border to create a box around
+*    the current block
+*  - tag a block with #.v-border-children to create boxes
+*    around the children blocks of the current block
+*  - or combine both with #.v-self-border-children
+*==============================================================*/ 
+
+[data-refs-self*="self-border"] {
+    box-shadow: 2px 2px 3px #0000003b;
+    border: 1px solid var(--ls-border-color);
+    border-radius: var(--ls-border-radius-medium);
+    background-color: var(--ls-primary-background-color);
+    margin: 0em 0.5em 0.2em 1em !important;
+    padding: 0.5em 1em 0.5em 0em !important;
+
+}
+[data-refs-self*="border-child"]>.block-children-container.flex>.block-children>.ls-block {
+    box-shadow: 2px 2px 3px #0000003b;
+    border: 1px solid var(--ls-border-color);
+    border-radius: var(--ls-border-radius-low);
+    background-color: var(--ls-tertiary-background-color);        
+    margin: 0.5em 1em 0.5em 0em !important;
+    padding: 0.15em 0em !important;
+}
+
+/*==== ls-border end ====== */
+
 /* logseq table resizer v20220331 ======================= */
 /* add rules to custom.css =============================== */
-        .table th {
-            position: relative;
-        }
-        .query-table-resizer {
-            position: relative;
-            top: -20px;
-            float: right;
-            margin-bottom: -18px;
-            cursor: col-resize;
-            user-select: none;
-            border-right: 1px solid var(--ls-border-color);
-            width: 10px; /* hitbox width */
-            height: 20px; 
-        }
+.table th {
+    position: relative;
+}
+.query-table-resizer {
+    position: relative;
+    top: -20px;
+    float: right;
+    margin-bottom: -18px;
+    cursor: col-resize;
+    user-select: none;
+    border-right: 1px solid var(--ls-border-color);
+    width: 10px; /* hitbox width */
+    height: 20px; 
+}
 
-        .query-table-resizer:active,
-        .query-table-resizing {
-            border-right: 2px solid rgb(255, 0, 0);
-        }
+.query-table-resizer:active,
+.query-table-resizing {
+    border-right: 2px solid rgb(255, 0, 0);
+}
 
-        .custom-query table.table-auto {
-            width: -webkit-fill-available;
-            table-layout: fixed;
-        }
-        .custom-query .table-auto>thead>tr>th {
-            border-bottom: 1px solid var(--ls-border-color);
-        }
-        .custom-query .table-auto>thead>tr>th {
-            background-color: rgba(0, 0, 0, 0.1);
-            padding: 3px 6px;
-        }
-        .custom-query .table-auto>tbody>tr>td.whitespace-nowrap {
-            overflow-wrap: break-word;
-            min-width: 20px;
-            white-space: normal;
-            font-weight: 300;
-            font-size: 13px;
-        }
-        .custom-query .table-auto>tbody>tr>.whitespace-nowrap img {
-            max-height: 120px;
-            margin: 0;
-        }
+.custom-query table.table-auto {
+    width: -webkit-fill-available;
+    table-layout: fixed;
+}
+.custom-query .table-auto>thead>tr>th {
+    border-bottom: 1px solid var(--ls-border-color);
+}
+.custom-query .table-auto>thead>tr>th {
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 3px 6px;
+}
+.custom-query .table-auto>tbody>tr>td.whitespace-nowrap {
+    overflow-wrap: break-word;
+    min-width: 20px;
+    white-space: normal;
+    font-weight: 300;
+    font-size: 13px;
+}
+.custom-query .table-auto>tbody>tr>.whitespace-nowrap img {
+    max-height: 120px;
+    margin: 0;
+}
 /* ==================================== end of table resizer */
+
+
 
 /* ==========  BETTER-SIDEBAR - right sidebarshrinking panes w/ horizontal scroll v20221217==================*/
 
-    :root {
-        --sidebarItemMinWidth: 250px;
-        --sidebarItemMaxWidth: 950px;
-    }
+:root {
+    --sidebarItemMinWidth: 250px;
+    --sidebarItemMaxWidth: 950px;
+}
 
-    .cp__right-sidebar-inner.flex.flex-col.h-full {
-        overflow: visible;
-    }
-    .cp__right-sidebar.open {
-        max-width: 80vw;
-        width: var(--ls-right-sidebar-width);
-    }
-    .sidebar-item-list {
-        width: fit-content;
-        height: 96vh !important;
-        overflow: unset;
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        align-content: flex-start;
-        padding: 0 0 0 6px;
-    }
+.cp__right-sidebar-inner.flex.flex-col.h-full {
+    overflow: visible;
+}
 
-    .cp__right-sidebar .sidebar-item {
-        display: inline-block;
-        align-self: flex-start;
-        overflow-y: auto;
-        min-height: 75px;
-        height: calc(100% - 10px) !important;
-        min-width: var(--sidebarItemMinWidth);
-        max-width: var(--sidebarItemMaxWidth);
-        width: 100%;
-        margin: 30px 0 0 0;
-        background-color: var(--ls-primary-background-color);
-        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
-        border: 1px solid black;
-        border-radius: 10px;
-        resize: both;
-        padding: 1.5rem 0.5rem;
-    }
+.sidebar-item-list {
+    width: fit-content;
+    height: 96vh !important;
+    overflow: unset;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    padding: 0 0 0 6px;
+}
 
-    .cp__right-sidebar-inner .resizer {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: 6px;
-        user-select: none;
-        cursor: col-resize !important;
-        z-index: 10;
-    }
+.cp__right-sidebar .sidebar-item {
+    display: inline-block;
+    align-self: flex-start;
+    overflow-y: auto;
+    min-height: 75px;
+    height: calc(100% - 10px) !important;
+    min-width: var(--sidebarItemMinWidth);
+    max-width: var(--sidebarItemMaxWidth);
+    width: 100%;
+    margin: 0px;
+    background-color: var(--ls-primary-background-color);
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+    border: 1px solid black;
+    border-radius: 10px;
+    resize: both;
+    padding: 1.5rem 0.5rem;
+}
 
-    .cp__right-sidebar .resizer:hover {
-        background-color: var(--ph-highlight-strong);
-    }
+.cp__right-sidebar-inner .resizer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 6px;
+    user-select: none;
+    cursor: col-resize !important;
+    z-index: 10;
+}
 
-    .cp__right-sidebar-scrollable {
-        overflow-y: hidden;
-        overflow-x: auto;
-        height: 100%;
-    }
+.cp__right-sidebar .resizer:hover {
+    background-color: var(--ph-highlight-strong);
+}
 
-    /* sliding panes */
-    .sidebar-item.folded {
-        display: inline-block;
-        overflow: hidden;
-        margin: 30px 0 0 0;               
-        padding: 5px;
-        resize: none;
-        width: 40px !important;
-        min-width: 40px;
-        writing-mode: vertical-LR;
-    }
-    .sidebar-item.folded .rotating-arrow.collapsed {
-        margin-top: 26px;
-    }
-    .sidebar-item.folded .rotating-arrow.collapsed svg {
-        transform: rotate(180deg) translate(3px, 0px);
-        transition: none;
-    }
+.cp__right-sidebar-scrollable {
+    overflow-y: hidden;
+    overflow-x: auto;
+    height: 100%;
+}
 
-    .sidebar-item.folded .ml-1.font-medium {
-        margin-top: 0.5rem;
-        transition: none;
-    }
+/* sliding panes */
+.sidebar-item.folded {
+    display: inline-block;
+    overflow: hidden;
+    margin: 0px 0 !important;
+    padding: 5px;
+    resize: none;
+    width: 40px !important;
+    min-width: 40px;
+    writing-mode: vertical-LR;
+}
 
-    .cp__right-sidebar .sidebar-item.folded .close {
-        transform: scale(.8) translate(-8px);
-        transition: transform .1s;
-    }
+.sidebar-item.folded .rotating-arrow.collapsed svg {
+    transform: rotate(180deg) translate(3px, -1.2rem);
+    transition: none;
+}
+
+.sidebar-item.folded .ml-1.font-medium {
+    margin-top: 2rem;
+    transition: none;
+}
+
+.cp__right-sidebar .sidebar-item.folded .close {
+    transform: scale(.8) translate(-8px);
+    transition: transform .1s;
+}
 
 /* ======================================== end of BETTER-SIDEBAR =====*/
+
+
 /* ==== hide special props ==========================*/
         div[data-refs-self="bg-pic"] {
             display: none !important;
         }
+
+/* task priority as colour-based circles */
+html[data-theme=dark] {
+  --ct-primary-color: #a3cef1;
+  --ct-secondary-color: #6096ba;
+  --ct-warning-color: #ff7262;
+  --ct-success-color: #0dcf82;
+  --ct-highlight-color: #d3a400;
+}
+
+a[priority],
+a.priority {
+  font-size: 0px;
+  /* Hide text */
+}
+
+a[priority=A]::before,
+a.priority[href="#/page/A" i]:before {
+  content: "A";
+  background: var(--ct-warning-color);
+  color: var(--ct-warning-color);
+}
+
+a[priority=B]::before,
+a.priority[href="#/page/B" i]:before {
+  content: "B";
+  background: var(--ct-highlight-color);
+  color: var(--ct-highlight-color);
+}
+
+a[priority=C]::before,
+a.priority[href="#/page/C" i]:before {
+  content: "C";
+  background: var(--ct-success-color);
+  color: var(--ct-success-color);
+}
+
+a.priority[href="#/page/A" i],
+[href="#/page/B" i],
+[href="#/page/C" i] {
+  display: inline-flex;
+  opacity: 1 !important;
+}
+
+a[priority]::before,
+a.priority::before {
+  transform: translateY(-1px);
+  border: 0px solid #eee;
+  border-radius: 50px;
+  min-width: 18px;
+  font-size: 12px;
+  font-weight: 600;
+  height: calc(var(--ct-marker-size) + 4px);
+  width: calc(var(--ct-marker-size) + 4px);
+  line-height: 1.5;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ct-code-font-family);
+  margin-right: 5px;
+}
+
+a.tooltip-priority:first-of-type::before {
+  margin-left: 0.3em;
+  margin-top: 0.5em;
+}
+
+
+
+
+
+
+
+/* start: CSS gallery like view for stashitems */
+/* gallery view for blocks tagged with stashitem or image */
+div[data-refs-self*="\"stashitem\""], div[data-refs-self*="\"image\""] {
+    display: inline-flex;
+    max-width: 300px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+    /* float: left; */
+}
+
+div[data-refs-self*="\"stashitem\""] .flex.flex-row, div[data-refs-self*="\"image\""] .flex.flex-row {
+    max-width: 300px;
+}
+
+.references-blocks div[data-refs-self*="\"stashitem\""], .references-blocks  div[data-refs-self*="\"image\""] {
+	float: left;
+	max-width: 250px;
+}
+
+.blocks-container > div > div > div[data-refs-self*="\"stashitem\""] {
+	/* display: none !important; */
+}
+
+div[data-refs-self*="\"stashitem\""] .tag[data-ref="stashitem"], div[data-refs-self*="\"image\""] .tag[data-ref="image"] {
+	display: none;
+}
+
+@media screen and (max-width: 1024px) {
+	div[data-refs-self*="\"stashitem\""], div[data-refs-self*="\"image\""] {
+    	max-width: 300px;
+    	min-width: 20%;
+    }
+}
+@media screen and (max-width: 1024px) {
+	div[data-refs-self*="\"stashitem\""], div[data-refs-self*="\"image\""] {
+    	max-width: 275px;
+    	min-width: 33.333%;
+    }
+}
+@media screen and (max-width: 480px) {
+	div[data-refs-self*="\"stashitem\""], div[data-refs-self*="\"image\""] {
+    	max-width: 180px;
+    	min-width: 50%;
+    }
+}
+
+div[data-refs-self*="\"stashitem\""] .open-block-ref-link, div[data-refs-self*="\"image\""] .open-block-ref-link {
+    position: absolute;
+    top: 3px;
+    right: 0px;
+}
+
+/* query gallery */
+div[data-refs-self*="\"gallery\""] .custom-query tr {
+	display: inline-flex;
+	background-color: #00000000;
+}
+div[data-refs-self*="\"gallery\""] .custom-query .table-auto>tbody>tr>.whitespace-nowrap img {
+	max-height: 300px;
+	max-width: 300px;;
+	padding: 5px;
+}
+div[data-refs-self*="\"gallery\""] .custom-query th, div[data-refs-self*="\"gallery\""] .custom-query thead {
+	display: none;
+}
+div[data-refs-self*="\"gallery\""] .custom-query tr .resize {
+	display: block !important;
+}
+
+
+/* end: CSS gallery for stashitems */
+
+
+/* start: colour-coded tags for various groups of tags */
+.tag {
+	color: white !important;
+	background-color: #2883df;
+}
+
+/* general tags */
+a.tag[data-ref="quick capture"] {
+	color: #bacce8 !important;
+    background-color: #344885;
+}
+
+/* a.tag[data-ref="my dreams"]::before { */
+/* 	content: "🛌"; */
+/* 	margin-right: 4px; */
+/* } */
+/* a.tag[data-ref="my sleep"]::before { */
+/* 	content: "💤"; */
+/* 	margin-right: 4px; */
+/* } */
+
+/* kanban custom workflow */
+
+
+
+/* start: parallel blocks */
+div[data-refs-self*="\"parallel-2\""], div[data-refs-self*="\"parallel-3\""], div[data-refs-self*="\"parallel-big\""], div[data-refs-self*="\"parallel-small\""] {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}
+div[data-refs-self*="\"parallel-2\""] > .flex.flex-row, div[data-refs-self*="\"parallel-3\""] > .flex.flex-row, div[data-refs-self*="\"parallel-big\""] > .flex.flex-row, div[data-refs-self*="\"parallel-small\""] > .flex.flex-row {
+    min-width: 100%;
+}
+
+div[data-refs-self*="\"parallel-2\""] {
+    min-width: 50%;
+    max-width: 50%;
+}
+div[data-refs-self*="\"parallel-3\""], div[data-refs-self*="\"parallel-small\""] {
+    min-width: 33.333%;
+    max-width: 33.333%;
+}
+div[data-refs-self*="\"parallel-big\""] {
+    min-width: 66%;
+    max-width: 66%;
+}
+.ls-block[data-refs-self*="parallel-2"] .block-content-wrapper .tag[data-ref*="parallel-2"], .ls-block[data-refs-self*="parallel-3"] .block-content-wrapper .tag[data-ref*="parallel-3"], .ls-block[data-refs-self*="parallel-small"] .block-content-wrapper .tag[data-ref*="parallel-small"], .ls-block[data-refs-self*="parallel-big"] .block-content-wrapper .tag[data-ref*="parallel-big"] {
+    display: none;
+}
+/* end: parallel blocks */

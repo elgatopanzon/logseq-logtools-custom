@@ -1,68 +1,136 @@
-# logseq-custom-files
-**custom.js** and **custom.css** utilities for Logseq.
+# logseq-logtools-custom
+This is a collection of modified and extended CSS/JS originally created by [cannibalox](https://github.com/cannibalox). It contains the CSS from the [logtools](https://github.com/cannibalox/logtools) plugin as well as the forked repo's CSS and JS.
 
-## Current Version v20230709
+**Note: I've been using this CSS and JS and testing and fixing it, and while it's all still experimental I believe it's time to release it and let others try it out.**
 
-### **Query table view resizer** :
-Add handles on the query table headers to resize column width
+## Features
+* Enhanced Kanban Workflow
+* Inline-gallery (stashitems)
+* Parallel Blocks
 
-![20220312_NUC8_M49yriOEAH](https://user-images.githubusercontent.com/4605693/158709862-5eb0917f-8b84-4c0b-be9e-bf84eda4e042.gif)
+### Enhanced Kanban Workflow
+The Kanban implementation comes in 2 flavours: Basic and Query based.
 
+#### Basic Kanban Board
+![](video path)
 
-### **Namespace prefixes collapser** : 
-Collapse namespace prefixes eg: [[prefix/page/test]] becomes [[../test]] (use the hover tootip to see the original name or enter edit mode)
+The basic Kanban Board workflow allows you to create 4 columes with coloured backgrounds for Todo, Doing, Done and Archive. Tasks are then created inside and manually moved around in the same way that you move Logseq blocks around. You are also in charge of properly marking items as doing/done while moving them.
 
-![20220314_NUC8_cMu56YIkrd](https://user-images.githubusercontent.com/4605693/158709836-762e4274-6604-4df8-9d1f-3d0260c6545c.gif)
+This was the first implementation of Kanban I did in Logseq.
 
+Below is the template for this board:
+```
+- # Kanban Board #.v-kanban #.v-kanban-w300
+  template:: Kanban Board (Manual)
+  template-including-parent:: true
+	- #todo
+	- #doing
+	- #done
+	- #archive
+```
 
-### **Twitter embeds** :
-Fetches and embeds tweets and timelines without using logseq's internal syntax `{{tweet https://twitter.com/username/status/id}}`. Instead, you can just write the tweet url inline.
+#### Query-based Kanban Board
+![](video path)
 
-Benefits: 
-- doesn't add extra markup to the source file 
-- shows the timelines.
+The Query-based Kanban Board works far better for project management and supports tasks on the Project level based on [this Project Management workflow](https://luhmann-logseq.notion.site/A-new-approach-to-project-management-in-Logseq-8b36dd5eb25d4b9e9882742b5ee4368e). It will pick up tasks in the page that the Kanban Board is in, as well as tasks in any other page that include the project page as a tag. This means you can control your project's Kanban Board and easily add tasks in the Daily Journal, or have cross-project tasks.
 
-A demo with Logtool's kanban css to display latest tweets :
+Using this board is a little different to the basic one, because you can't manually position the tasks or drag them. You have to rely on priority and a special tag `#sort0`, `#sort1` etc, to position tasks within the board. By default they are sorted by priority and then by sort tag.
 
-![Logseq_DASHBOARD_20220517_1586](https://user-images.githubusercontent.com/4605693/168820686-4af1e0b5-e638-4b00-ac23-0fce80427755.png)
+Moving tasks through the workflow is done by the tasks todo/doing/done state, so all you need to do is click that to have it switch to the other boards automatically! The only exception is the Archive board, which requires the `#archive` tag and applies only to done tasks (they will move from Done to Archive).
 
-### **Better sidebar** :
-Enhance the right sidebar by replacing the vertical scroll with horizontal panes which are collapsible and resizable. Inspired by the sliding panes/matuschak mode with improved usability.
+Below is the template for this board including the queries:
+```
+- # Kanban Board #.v-kanban #.v-kanban-query #.v-kanban-w300
+  template:: Kanban Board (Query)
+  template-including-parent:: true
+	- #todo
+		- #+BEGIN_QUERY
+{
+:query [:find (pull ?b [*])
+:in $ ?tag
+:where
+[?b :block/marker ?marker]
+[(contains? #{"TODO" "NOW" "LATER" "WAITING"} ?marker)]
+(page-ref ?b ?tag)
+[?ref :block/name "project"]
+(not [?b :block/refs ?ref])
+]
+:inputs [:query-page]
+:result-transform (fn [result] (sort-by (fn [r] [ (get r :block/priority "Z") (get r :block/scheduled) (get r :block/content) (get r :block/deadline) ]) (map (fn [m] (assoc m :block/collapsed? true)) result)))
+:breadcrumb-show? true
+:table-view? false
+}
+#+END_QUERY
+	- #doing
+		- #+BEGIN_QUERY
+{
+:query [:find (pull ?b [*])
+:in $ ?tag
+:where
+[?b :block/marker ?marker]
+[(contains? #{"DOING"} ?marker)]
+(page-ref ?b ?tag)
+[?ref :block/name "project"]
+(not [?b :block/refs ?ref])
+]
+:inputs [:query-page]
+:result-transform (fn [result] (sort-by (fn [r] [ (get r :block/priority "Z") (get r :block/scheduled) (get r :block/content) (get r :block/deadline) ]) (map (fn [m] (assoc m :block/collapsed? true)) result)))
+:breadcrumb-show? true
+:table-view? false
+}
+#+END_QUERY
+	- #done
+		- #+BEGIN_QUERY
+{
+:query [:find (pull ?b [*])
+:in $ ?tag
+:where
+[?b :block/marker ?marker]
+[(contains? #{"DONE"} ?marker)]
+(page-ref ?b ?tag)
+[?ref :block/name "project"]
+[?refarchive :block/name "archive"]
+(not [?b :block/refs ?ref])
+(not [?b :block/refs ?refarchive])
+]
+:inputs [:query-page]
+:result-transform (fn [result] (sort-by (fn [r] [ (get r :block/priority "Z") (get r :block/scheduled) (get r :block/content) (get r :block/deadline) ]) (map (fn [m] (assoc m :block/collapsed? true)) result)))
+:breadcrumb-show? true
+:table-view? false
+}
+#+END_QUERY
+	- #archive
+		- #+BEGIN_QUERY
+{
+:query [:find (pull ?b [*])
+:in $ ?tag
+:where
+[?b :block/marker ?marker]
+[(contains? #{"DONE"} ?marker)]
+(page-ref ?b ?tag)
+[?ref :block/name "project"]
+[?refarchive :block/name "archive"]
+(not [?b :block/refs ?ref])
+[?b :block/refs ?refarchive]
+]
+:inputs [:query-page]
+:result-transform (fn [result] (sort-by (fn [r] [ (get r :block/priority "Z") (get r :block/scheduled) (get r :block/content) (get r :block/deadline) ]) (map (fn [m] (assoc m :block/collapsed? true)) result)))
+:breadcrumb-show? true
+:table-view? false
+}
+#+END_QUERY
+```
 
-This works in conjunction with a custom.js snippet. If you don't want to use this sidebar mod, you need to REMOVE the better-sidebar javascript (edit the custom.js and comment out or remove the lines)
+### Inline gallery (stashitems) for enhanced Whiteboard workflow
+![](screenshot path)
 
-![ss_Logseq_All_pages_20230213_V5ihMcrohP](https://user-images.githubusercontent.com/4605693/218562643-542a8455-1845-43df-ab90-d89d87cdb5cd.gif)
+I wanted to improve my workflow with the Whiteboards feature, and in order to do that I introduced a feature I named "StashSpace" which involves using a custom tag `#stashitem` on a block and it turns that block into an inline-gallery block, and each block after it will appear in a sort of gallery-like view. 
 
+The main idea behind this is to upload assets into Logseq and document them with tags for example `#shippingcontainer #ship #stashitem`, to create a database of tagged assets related to the tags in question.
 
-## How-to use/install
+![](screenshot path)
 
-### No exisiting custom.css/custom.js
-If you are not using any custom.js[^1] or custom.css, copy the files into your `%graph-name%/logseq/` folder.
+Then, when in the Whiteboard view opening the sidebar with the `stashitem` page becomes a filterable database of your media asset items, and dragging the blocks onto the Whiteboard becomes simple. In the long-run this avoids copying the same asset to your Whiteboard, increases the bi-directional linking of media items when using Whiteboards, and feels more in line with the "Logseq way" of managing these kinds of items.
 
-### Existing custom.css/custom.js
-Alternatively, if you don't want to overwrite your current files or are only interested in some of the utilites : 
-  1. Open the desired file with a text editor/code editor
-  2. Copy-paste the relevant sections into your own custom.js/custom.css files. Some utilities require to copy sections from **both** custom.js **and** custom.css to work. Make sure to include the mutation observer declaration at the start of the custom.js)
-  3. Use the search function to find the relevant snippets delimited by comments with descriptive names. For custom.css, it's possible to add `@import url("https://cdn.jsdelivr.net/gh/cannibalox/logseq-custom-files@latest/custom.css");` at the beginning of your file.
-
-[^1]: - custom.js has been introduced in logseq on 2021-11-10, see details here https://github.com/logseq/logseq/pull/2943
-    - The custom.js file is **not** created by the default installer; it has to be created manually in `/logseq`.
-    - Before executing the code, the user will be asked for execution permission.
-    - When the content of the custom.js file is modified, it needs to be restarted or refreshed to take effect.
-    
-## Help me improve the utilities
-
-- I'm glad to accept Pull Requests if you know how to improve or optimize the utilities.
-- If you find this useful, you can also buy me a coffee :) <br><br>
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/O5O1BN89Y)
-
-More js snippets and css customizations are coming soon, stay tuned
-
-## changelog
-
-- **v20230709** : fix better-sidebar's arrow location for logseq 0.9.10
-- **v20230214** : new: add better-sidebar, fix: props data-refs (`bg-pic::`)
-- **v20220517** : new: add function to add properties to the data-refs attributes; new: add bg-pic attribute
-- **v20220517** : new: add function for tweet embed
-- **v20220331** : fix sorting : resizer handle was overlapping the table headers. moved style to custom.css
-- **v20220329** : fix for advanced queries
+### Parallel Blocks
+This is a simple way to put any blocks side by side in a column view, simply by adding the tags `#parallel-2` to the 2 blocks, or `#parallel-3` to the 3 blocks. Additionally, the tags `#parallel-small` and `#parallel-big` work to have 2 blocks side by side with one taking more space than the other, similar to having a sidebar.

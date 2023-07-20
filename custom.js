@@ -88,8 +88,8 @@
     for (var i = 0; i < nmsp.length; i++) {
       if (nmsp[i].innerText.indexOf("/") !== -1) {
         nmsp[i].innerHTML =
-          "<span style='color:rgb(133, 211, 81)'>..</span>" +
-          nmsp[i].innerText.substring(nmsp[i].innerText.lastIndexOf("/"));
+          "<span style='color:rgb(133, 211, 81)'>📂</span>" +
+          nmsp[i].innerText.substring(nmsp[i].innerText.lastIndexOf("/")).slice(1);
         nmsp[i].classList.add("hidden-namespace"); 
         //console.info(" namespace off ==> " + nmsp[i].innerText);
       }
@@ -222,59 +222,59 @@
   });
 // =================== end of rotate closed tabs in right sidebar =========
 
-// ====== LS-TWITTER-EMBED =============================================
-  console.info('====== LS-TWITTER-EMBED ======');
-  // add twitter script and meta tags to head
-  var s = document.createElement("script");
-  s.type = "text/javascript";
-  s.src = "https://platform.twitter.com/widgets.js";
-  s.async = true;
-  var m = document.createElement("meta");
-  m.name = "twitter:widgets:theme";
-  m.content = "dark";
-  document.head.append(s, m);
-
-  function embedTwitter() {
-    let isTweet = document.querySelectorAll(
-      "a.external-link[href^='https://twitter.com"
-    );
-    for (let i = 0; i < isTweet.length; i++) {
-      if (isTweet[i].children[0] === undefined) {
-        var requestUrl =
-          "https://publish.twitter.com/oembed?omit_script=1&url=" +
-          isTweet[i].href + "&limit=8&theme=dark&maxwidth=550&maxheight=600";
-        var oReq = new XMLHttpRequest();
-        oReq.onreadystatechange = function () {
-          if (this.readyState == 4 && this.status == 200) {
-            var data = JSON.parse(this.responseText);
-            console.log(
-              'requestUrl      : ', requestUrl,
-              '\noReq.response : ', oReq.response,
-              '\ndata          : ', data,
-              '\ndata.html     : ', data.html
-              );
-              insertResponse(data, i);
-            }
-          }
-        oReq.open("GET", requestUrl, true);
-        oReq.send();
-      }
-    }
-
-    function insertResponse(data, i) {
-      var insTw = document.createElement("div");
-      insTw.className = "twembed";
-      insTw.innerHTML = data.html;
-      isTweet[i].appendChild(insTw);
-      console.log("embedding Tweets...");
-      twttr.widgets.load();
-    }
-  };
-  const embTwthrottled = throttle(embedTwitter, 1000);
-  const embTw = new MutationObserver(embTwthrottled);
-  const embTwTarget = document.getElementById('main-container');
-  embTw.observe(embTwTarget, {
-    subtree: true,
-    childList: true,
-  });
-// =============================================== end of twitter embed =
+// // ====== LS-TWITTER-EMBED =============================================
+//   console.info('====== LS-TWITTER-EMBED ======');
+//   // add twitter script and meta tags to head
+//   var s = document.createElement("script");
+//   s.type = "text/javascript";
+//   s.src = "https://platform.twitter.com/widgets.js";
+//   s.async = true;
+//   var m = document.createElement("meta");
+//   m.name = "twitter:widgets:theme";
+//   m.content = "dark";
+//   document.head.append(s, m);
+//
+//   function embedTwitter() {
+//     let isTweet = document.querySelectorAll(
+//       "a.external-link[href^='https://twitter.com"
+//     );
+//     for (let i = 0; i < isTweet.length; i++) {
+//       if (isTweet[i].children[0] === undefined) {
+//         var requestUrl =
+//           "https://publish.twitter.com/oembed?omit_script=1&url=" +
+//           isTweet[i].href + "&limit=8&theme=dark&maxwidth=550&maxheight=600";
+//         var oReq = new XMLHttpRequest();
+//         oReq.onreadystatechange = function () {
+//           if (this.readyState == 4 && this.status == 200) {
+//             var data = JSON.parse(this.responseText);
+//             console.log(
+//               'requestUrl      : ', requestUrl,
+//               '\noReq.response : ', oReq.response,
+//               '\ndata          : ', data,
+//               '\ndata.html     : ', data.html
+//               );
+//               insertResponse(data, i);
+//             }
+//           }
+//         oReq.open("GET", requestUrl, true);
+//         oReq.send();
+//       }
+//     }
+//
+//     function insertResponse(data, i) {
+//       var insTw = document.createElement("div");
+//       insTw.className = "twembed";
+//       insTw.innerHTML = data.html;
+//       isTweet[i].appendChild(insTw);
+//       console.log("embedding Tweets...");
+//       twttr.widgets.load();
+//     }
+//   };
+//   const embTwthrottled = throttle(embedTwitter, 1000);
+//   const embTw = new MutationObserver(embTwthrottled);
+//   const embTwTarget = document.getElementById('main-container');
+//   embTw.observe(embTwTarget, {
+//     subtree: true,
+//     childList: true,
+//   });
+// // =============================================== end of twitter embed =

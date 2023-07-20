@@ -30,7 +30,7 @@ Below is the template for this board:
 ```
 
 #### Query-based Kanban Board
-![](https://github.com/elgatopanzon/logseq-logtools-custom/assets/133258481/e600a160-7a70-4a7d-a645-22576985cfc5)
+https://github.com/elgatopanzon/logseq-logtools-custom/assets/133258481/e600a160-7a70-4a7d-a645-22576985cfc5
 
 The Query-based Kanban Board works far better for project management and supports tasks on the Project level based on [this Project Management workflow](https://luhmann-logseq.notion.site/A-new-approach-to-project-management-in-Logseq-8b36dd5eb25d4b9e9882742b5ee4368e). It will pick up tasks in the page that the Kanban Board is in, as well as tasks in any other page that include the project page as a tag. This means you can control your project's Kanban Board and easily add tasks in the Daily Journal, or have cross-project tasks.
 

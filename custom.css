@@ -1318,7 +1318,14 @@ div[data-refs-self*="\"parallel-big\""] {
     min-width: 66%;
     max-width: 66%;
 }
-.ls-block[data-refs-self*="parallel-2"] .block-content-wrapper .tag[data-ref*="parallel-2"], .ls-block[data-refs-self*="parallel-3"] .block-content-wrapper .tag[data-ref*="parallel-3"], .ls-block[data-refs-self*="parallel-small"] .block-content-wrapper .tag[data-ref*="parallel-small"], .ls-block[data-refs-self*="parallel-big"] .block-content-wrapper .tag[data-ref*="parallel-big"] {
+div[data-refs-self*="\"parallel-float-left\""] {
+	float: left;
+}
+div[data-refs-self*="\"parallel-float-right\""] {
+	float: right;
+}
+.ls-block[data-refs-self*="parallel-2"] .block-content-wrapper .tag[data-ref*="parallel-2"], .ls-block[data-refs-self*="parallel-3"] .block-content-wrapper .tag[data-ref*="parallel-3"], .ls-block[data-refs-self*="parallel-small"] .block-content-wrapper .tag[data-ref*="parallel-small"], .ls-block[data-refs-self*="parallel-big"] .block-content-wrapper .tag[data-ref*="parallel-big"], .ls-block[data-refs-self*="parallel-float-left"] .block-content-wrapper .tag[data-ref*="parallel-float-left"], .ls-block[data-refs-self*="parallel-float-right"] .block-content-wrapper .tag[data-ref*="parallel-float-right"] {
     display: none;
 }
+
 /* end: parallel blocks */

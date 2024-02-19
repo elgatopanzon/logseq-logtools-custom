@@ -142,3 +142,5 @@ In the long-run this avoids copying the same asset to your Whiteboard, increases
 ### Parallel Blocks
 ![Screenshot_select-area_20230707112512](https://github.com/elgatopanzon/logseq-logtools-custom/assets/133258481/6de0d4b6-27b0-49f3-a0a0-6c9872a4fd02)
 This is a simple way to put any blocks side by side in a column view, simply by adding the tags `#parallel-2` to the 2 blocks, or `#parallel-3` to the 3 blocks. Additionally, the tags `#parallel-small` and `#parallel-big` work to have 2 blocks side by side with one taking more space than the other, similar to having a sidebar.
+
+Using an additional tag `#parallel-float-left` or `#parallel-float-right` allows for a block to be pinned to the left or right side. This allows content of other blocks to wrap around them rather than each block acting like a column.

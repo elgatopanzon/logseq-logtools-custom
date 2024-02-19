@@ -12,9 +12,9 @@ This is a collection of modified and extended CSS/JS originally created by [cann
 The Kanban implementation comes in 2 flavours: Basic and Query based.
 
 #### Basic Kanban Board
-![](video path)
+https://github.com/elgatopanzon/logseq-logtools-custom/assets/133258481/ddd9ffa0-3f8a-4715-b50f-d608605fc68d
 
-The basic Kanban Board workflow allows you to create 4 columes with coloured backgrounds for Todo, Doing, Done and Archive. Tasks are then created inside and manually moved around in the same way that you move Logseq blocks around. You are also in charge of properly marking items as doing/done while moving them.
+The basic Kanban Board workflow allows you to create 4 columns with coloured backgrounds for Todo, Doing, Done and Archive. Tasks are then created inside and manually moved around in the same way that you move Logseq blocks around. You are also in charge of properly marking items as doing/done while moving them.
 
 This was the first implementation of Kanban I did in Logseq.
 
@@ -30,7 +30,7 @@ Below is the template for this board:
 ```
 
 #### Query-based Kanban Board
-![](video path)
+https://github.com/elgatopanzon/logseq-logtools-custom/assets/133258481/e600a160-7a70-4a7d-a645-22576985cfc5
 
 The Query-based Kanban Board works far better for project management and supports tasks on the Project level based on [this Project Management workflow](https://luhmann-logseq.notion.site/A-new-approach-to-project-management-in-Logseq-8b36dd5eb25d4b9e9882742b5ee4368e). It will pick up tasks in the page that the Kanban Board is in, as well as tasks in any other page that include the project page as a tag. This means you can control your project's Kanban Board and easily add tasks in the Daily Journal, or have cross-project tasks.
 
@@ -122,15 +122,23 @@ Below is the template for this board including the queries:
 ```
 
 ### Inline gallery (stashitems) for enhanced Whiteboard workflow
-![](screenshot path)
+![Screenshot_select-area_20230708174602](https://github.com/elgatopanzon/logseq-logtools-custom/assets/133258481/3c4f4b2c-614f-4a36-9510-892bc4f3f13b)
+
 
 I wanted to improve my workflow with the Whiteboards feature, and in order to do that I introduced a feature I named "StashSpace" which involves using a custom tag `#stashitem` on a block and it turns that block into an inline-gallery block, and each block after it will appear in a sort of gallery-like view. 
 
 The main idea behind this is to upload assets into Logseq and document them with tags for example `#shippingcontainer #ship #stashitem`, to create a database of tagged assets related to the tags in question.
 
-![](screenshot path)
+The real power comes from the Linked References of the `#stashitem` page, which allows filtering for any number of tags. The CSS also applies to the results in the Linked References page.
 
-Then, when in the Whiteboard view opening the sidebar with the `stashitem` page becomes a filterable database of your media asset items, and dragging the blocks onto the Whiteboard becomes simple. In the long-run this avoids copying the same asset to your Whiteboard, increases the bi-directional linking of media items when using Whiteboards, and feels more in line with the "Logseq way" of managing these kinds of items.
+![Screenshot_select-area_20230708175306](https://github.com/elgatopanzon/logseq-logtools-custom/assets/133258481/9a12e402-e341-477e-83e2-408ca92c319a)
+
+Then, when in the Whiteboard view opening the sidebar with the `#stashitem` page becomes a filterable database of your media asset items, and dragging the blocks onto the Whiteboard places that image onto the board including the tags, and looks neat when collapsed.
+
+![Screenshot_select-area_20230708175525](https://github.com/elgatopanzon/logseq-logtools-custom/assets/133258481/11c0472b-49d9-416c-b87a-75561dbe133a)
+
+In the long-run this avoids copying the same asset to your Whiteboard, increases the bi-directional linking of media items when using Whiteboards, and feels more in line with the "Logseq way" of managing these kinds of items in my opinion!
 
 ### Parallel Blocks
+![Screenshot_select-area_20230707112512](https://github.com/elgatopanzon/logseq-logtools-custom/assets/133258481/6de0d4b6-27b0-49f3-a0a0-6c9872a4fd02)
 This is a simple way to put any blocks side by side in a column view, simply by adding the tags `#parallel-2` to the 2 blocks, or `#parallel-3` to the 3 blocks. Additionally, the tags `#parallel-small` and `#parallel-big` work to have 2 blocks side by side with one taking more space than the other, similar to having a sidebar.

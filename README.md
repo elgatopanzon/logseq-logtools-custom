@@ -7,6 +7,7 @@ This is a collection of modified and extended CSS/JS originally created by [cann
 * Enhanced Kanban Workflow
 * Inline-gallery (stashitems)
 * Parallel Blocks
+* Timeline
 
 ### Enhanced Kanban Workflow
 The Kanban implementation comes in 2 flavours: Basic and Query based.
@@ -144,3 +145,10 @@ In the long-run this avoids copying the same asset to your Whiteboard, increases
 This is a simple way to put any blocks side by side in a column view, simply by adding the tags `#parallel-2` to the 2 blocks, or `#parallel-3` to the 3 blocks. Additionally, the tags `#parallel-small` and `#parallel-big` work to have 2 blocks side by side with one taking more space than the other, similar to having a sidebar.
 
 Using an additional tag `#parallel-float-left` or `#parallel-float-right` allows for a block to be pinned to the left or right side. This allows content of other blocks to wrap around them rather than each block acting like a column.
+
+### Timeline
+![Screenshot_select-area_20240221122601](https://github.com/elgatopanzon/logseq-logtools-custom/assets/133258481/2eaeaf18-437d-4c14-9625-7bd17262e7d7)
+Using the `#timeline` tag any block's children can be turned into a Timeline view. During this view, each block's first child retains the same indent level as the title, to keep within the style of the timeline.
+
+![Screenshot_select-area_20240221122615](https://github.com/elgatopanzon/logseq-logtools-custom/assets/133258481/b49a23ba-6839-43cb-b921-17f4668c9da6)
+The Parallel Blocks tags can be combined with the Timeline tags and the additional `#timeline-small` tag to create parallel content + a timeline.
